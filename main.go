@@ -4,6 +4,8 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
 	"log"
+
+	_ "github.com/yydzero/cherry/routers"
 )
 
 func main() {
