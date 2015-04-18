@@ -3,13 +3,13 @@ package main
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
-	_ "github.com/yydzero/cherry/routers"
 	"log"
 )
 
 func main() {
 	log.SetFlags(log.Ltime | log.Lshortfile)
 
+	// Enable CORS
 	opts := &cors.Options{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"POST", "GET"},
