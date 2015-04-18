@@ -1,16 +1,23 @@
 package admin
 
 import (
-	"github.com/astaxie/beego"
+	"github.com/yydzero/cherry/controllers"
 	"log"
 )
 
 type AuthController struct {
-	beego.Controller
+	controllers.CherryController
 }
 
+// Signup register new user
 func (c *AuthController) Signup() {
-	log.Println("now called.")
+	email := c.GetString("email")
+	password := c.GetString("password")
+
+	if email == "" || password == "" {
+		c.Fail("email and password could not be empty")
+		return
+	}
 }
 
 func (c *AuthController) Signin() {
