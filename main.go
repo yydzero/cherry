@@ -1,20 +1,25 @@
 package main
 
 import (
-	_ "Users/yyao/workspace/go/goproject/cherry/routers"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/plugins/cors"
+	_ "github.com/yydzero/cherry/routers"
+	"log"
 )
 
 func main() {
 	log.SetFlags(log.Ltime | log.Lshortfile)
-	beego.InsertFilter("*",
-		beego.BeforeRouter, cors.Allow(&cors.Options{
-			AllowOrigins:     []string{"*"},
-			AllowMethods:     []string{"POST", "GET"},
-			AllowHeaders:     []string{"Origin"},
-			ExposeHeaders:    []string{"Content-Length"},
-			AllowCredentials: true,
-		}))
+
+	opts := &cors.Options{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"POST", "GET"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}
+	filterFunc := cors.Allow(opts)
+
+	beego.InsertFilter("*", beego.BeforeRouter, filterFunc)
 
 	beego.Run()
 }
