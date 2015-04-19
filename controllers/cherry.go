@@ -3,10 +3,8 @@ package controllers
 // cherry controllers define base func for all controllers.
 
 import (
-	"bytes"
-	"encoding/json"
-	"fmt"
 	"github.com/astaxie/beego"
+	"github.com/ninedata/goat"
 )
 
 type CherryController struct {
@@ -26,14 +24,8 @@ func (c *CherryController) Fail(message string) {
 	}
 
 	c.Data["json"] = r
+	goat.PrintVarInJson(r)
 
 	c.ServeJson()
 }
 
-func PrintVarInJson(v interface{}) {
-	b, _ := json.Marshal(v)
-	var out bytes.Buffer
-	json.Indent(&out, b, "", "\t")
-
-	fmt.Printf("%s\n", out.String())
-}
