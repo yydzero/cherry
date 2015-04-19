@@ -18,6 +18,8 @@ func (c *AuthController) Signup() {
 		c.Fail("email and password could not be empty")
 		return
 	}
+
+	// store user info into datastore
 }
 
 func (c *AuthController) Signin() {
