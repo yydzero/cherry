@@ -10,7 +10,7 @@ type AuthController struct {
 	controllers.CherryController
 }
 
-// Signup register new user
+// Signup will register new user
 func (c *AuthController) Signup() {
 	email := c.GetString("email")
 	password := c.GetString("password")
@@ -42,7 +42,8 @@ func (c *AuthController) Signup() {
 	c.Ok("user saved")
 }
 
-func (c *AuthController) Signin() {
+// Login will return token if signin successfully, otherwise report error.
+func (c *AuthController) Login() {
 	email := c.GetString("email")
 	password := c.GetString("password")
 
@@ -53,10 +54,18 @@ func (c *AuthController) Signin() {
 
 	// store user info into datastore
 	u := user.NewUser(email, password)
-	if err := u.Save(); err != nil {
-		c.Fail(err.Error())
+	u, err := user.FindByEmailPassword(u)
+	if err != nil || u == nil {
+		c.Fail("email and password are incorrect")
 		return
 	}
 
-	c.Ok("user saved")
+	c.SetSession("user", u)
+
+
+	c.Resource(map[string]string{"sessionid" : c.CruSession.SessionID()})
+}
+
+func (c *AuthController) Logout() {
+
 }

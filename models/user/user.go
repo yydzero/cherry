@@ -4,6 +4,7 @@ import (
 	"github.com/ninedata/goat"
 	"database/sql"
 	"log"
+	"github.com/jmoiron/sqlx"
 )
 
 type User struct {
@@ -11,6 +12,12 @@ type User struct {
 	Email    string
 	Name     string
 	Password string
+}
+
+var db *sqlx.DB
+
+func init() {
+	db = models.GetDB()
 }
 
 func NewUser(email, password string) *User {
@@ -30,8 +37,19 @@ func HasUser(u *User) (bool, error) {
 
 func Find(u *User) (*User, error) {
 	var u1 User
-	db := models.GetDB()
 	row := db.QueryRowx(db.Rebind("SELECT id, email, name, password FROM users WHERE email = ?"), u.Email)
+	err := row.StructScan(&u1)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &u1, nil
+}
+
+func FindByEmailPassword(u *User) (*User, error) {
+	var u1 User
+	row := db.QueryRowx(db.Rebind("SELECT id, name, email  FROM users WHERE email = ? and password = ?"), u.Email, u.Password)
 	err := row.StructScan(&u1)
 
 	if err != nil {
@@ -43,8 +61,6 @@ func Find(u *User) (*User, error) {
 
 func (u *User) Save() error {
 	var id int
-
-	db := models.GetDB()
 
 	err := db.QueryRow(db.Rebind("SELECT id FROM users WHERE email = ?"), u.Email).Scan(&id)
 

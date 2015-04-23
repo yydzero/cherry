@@ -39,3 +39,14 @@ func (c *CherryController) Ok(message string) {
 	c.ServeJson()
 }
 
+func (c *CherryController) Resource(v interface{}) {
+	resources := make([]interface{}, 0)
+	resources = append(resources, v)
+	r := Response{
+		Status: "ok",
+		Resources: resources,
+	}
+	c.Data["json"] = r
+	c.ServeJson()
+}
+
