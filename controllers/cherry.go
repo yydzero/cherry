@@ -29,3 +29,13 @@ func (c *CherryController) Fail(message string) {
 	c.ServeJson()
 }
 
+func (c *CherryController) Ok(message string) {
+	r := Response{
+		Status:  "ok",
+		Message: message,
+	}
+
+	c.Data["json"] = r
+	c.ServeJson()
+}
+
