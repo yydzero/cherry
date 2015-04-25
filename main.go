@@ -1,11 +1,18 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/plugins/cors"
 	"log"
 
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/plugins/cors"
+
+	// To init models
+	_ "github.com/yydzero/cherry/models"
+
+	// To init routers
 	_ "github.com/yydzero/cherry/routers"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {

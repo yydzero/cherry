@@ -4,8 +4,16 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
 	"github.com/ninedata/goat"
 )
+
+var o orm.Ormer
+
+func init() {
+	o = orm.NewOrm()
+	o.Using("default")
+}
 
 type CherryController struct {
 	beego.Controller
@@ -15,6 +23,10 @@ type Response struct {
 	Status    string
 	Message   string
 	Resources []interface{}
+}
+
+func (c *CherryController) GetORM() orm.Ormer {
+	return o
 }
 
 func (c *CherryController) Fail(message string) {

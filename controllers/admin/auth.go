@@ -2,7 +2,7 @@ package admin
 
 import (
 	"github.com/yydzero/cherry/controllers"
-	"github.com/yydzero/cherry/models/user"
+	"github.com/yydzero/cherry/models"
 	"fmt"
 )
 
@@ -21,20 +21,20 @@ func (c *AuthController) Signup() {
 	}
 
 	// store user info into datastore
-	u := user.NewUser(email, password)
+	user := models.User{Email: email, Password: password}
 
-	hasUser, err := user.HasUser(u)
+	u1, err := models.HasUserByEmail(& models.User{Email: email})
 	if err != nil {
 		c.Fail(err.Error())
 		return
 	}
 
-	if hasUser {
+	if u1 != nil {
 		c.Fail(fmt.Sprintf("User '%s' exist already", email))
 		return
 	}
 
-	if err := u.Save(); err != nil {
+	if _, err := c.GetORM().Insert(&user); err != nil {
 		c.Fail(err.Error())
 		return
 	}
@@ -44,6 +44,11 @@ func (c *AuthController) Signup() {
 
 // Login will return token if signin successfully, otherwise report error.
 func (c *AuthController) Login() {
+	s := c.GetSession("user")
+	if s != nil {
+		c.Redirect("/home", 302)
+	}
+
 	email := c.GetString("email")
 	password := c.GetString("password")
 
@@ -52,16 +57,13 @@ func (c *AuthController) Login() {
 		return
 	}
 
-	// store user info into datastore
-	u := user.NewUser(email, password)
-	u, err := user.FindByEmailPassword(u)
-	if err != nil || u == nil {
+	u1, err := models.HasUserByEmail(& models.User{Email: email})
+	if err != nil || u1 == nil || u1.Password != password {
 		c.Fail("email and password are incorrect")
 		return
 	}
 
-	c.SetSession("user", u)
-
+	c.SetSession("user", u1)
 
 	c.Resource(map[string]string{"sessionid" : c.CruSession.SessionID()})
 }
