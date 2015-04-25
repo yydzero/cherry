@@ -22,6 +22,7 @@ type CherryController struct {
 type Response struct {
 	Status    string
 	Message   string
+	Resource  interface{}
 	Resources []interface{}
 }
 
@@ -52,11 +53,9 @@ func (c *CherryController) Ok(message string) {
 }
 
 func (c *CherryController) Resource(v interface{}) {
-	resources := make([]interface{}, 0)
-	resources = append(resources, v)
 	r := Response{
 		Status: "ok",
-		Resources: resources,
+		Resource: v,
 	}
 	c.Data["json"] = r
 	c.ServeJson()

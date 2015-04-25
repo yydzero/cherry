@@ -21,9 +21,10 @@ func main() {
 	// Enable CORS
 	opts := &cors.Options{
 		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"POST", "GET"},
-		AllowHeaders:     []string{"Origin"},
-		ExposeHeaders:    []string{"Content-Length"},
+//		AllowAllOrigins:  true,
+		AllowMethods:     []string{"GET", "DELETE", "PUT", "OPTIONS", "POST"},
+		AllowHeaders:     []string{"Origin", "X-Requested-With", "Content-Type", "Accept", "X-XSRF-TOKEN", "X-Xsrftoken"},
+		ExposeHeaders:    []string{"Content-Length", "Content-Type"},
 		AllowCredentials: true,
 	}
 	filterFunc := cors.Allow(opts)

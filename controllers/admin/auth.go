@@ -65,7 +65,17 @@ func (c *AuthController) Login() {
 
 	c.SetSession("user", u1)
 
-	c.Resource(map[string]string{"sessionid" : c.CruSession.SessionID()})
+	r := map[string]interface{}{
+		"sessionid": c.CruSession.SessionID(),
+		"user": &models.User{
+			Id: u1.Id,
+			Email: u1.Email,
+			First: u1.First,
+			Last: u1.Last,
+		},
+	}
+
+	c.Resource(r)
 }
 
 func (c *AuthController) Logout() {
