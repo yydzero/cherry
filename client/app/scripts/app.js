@@ -16,7 +16,8 @@ angular
         'ngRoute',
         'ngSanitize',
         'ngTouch',
-        'ui.grid'
+        'ui.grid',
+        'ui.tree'
     ])
     .constant('config', {
         url: 'http://localhost:8080'
