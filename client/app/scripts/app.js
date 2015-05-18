@@ -25,12 +25,14 @@ angular
     .factory('myInterceptor', ['$rootScope', '$q', '$timeout', '$cookies', function ($rootScope, $q, $timeout, $cookies) {
         var myInterceptor = {
             'request': function (config) {
-                var token = $cookies['XSRF-TOKEN'];
+                var token = $cookies['_xsrf'];
+                //console.log(token);
                 if (token) {
                     config.headers['X-XSRF-TOKEN'] = token;
                     config.headers['X-Xsrftoken'] = token;
+                    //config.headers['_xsrf'] = token;
                 }
-                config.headers['X-Xsrftoken'] = 'ddddd';
+                //config.headers['X-Xsrftoken'] = 'ddddd';
                 return config;
             },
             'responseError': function (response) {

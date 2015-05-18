@@ -13,14 +13,20 @@ angular.module('clientApp').controller('LoginCtrl', ['$scope', '$http', 'config'
 
             $http.get(config.url + '/login?email=' + email + '&password=' + password)
                 .success(function (data) {
-                    console.log(data);
-                    $cookies['XSRF-TOKEN'] = data['sessionid'];
-                    $cookies['USER'] = data.user;
+                    if (data.Status === 'ok') {
+                        console.log(data);
+                        //$cookies['XSRF-TOKEN'] = data.Resource.sessionid;
+                        $cookies['USER'] = data.Resource;
 
-                    console.log('signin is finished with ' + data);
+                        console.log('signin is finished with ' + data);
 
-                    //$state.go('projects');
-                    $location.path('/');
+                        //$state.go('projects');
+                        $location.path('/');
+                    } else {
+                        $scope.message = 'failed: ' + data.Message;
+                    }
+
+
 
                 })
                 .error(function (error) {

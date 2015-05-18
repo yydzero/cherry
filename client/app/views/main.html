@@ -68,17 +68,17 @@
         <!-- left panel -->
         <div class="col-xs-4 col-sm-4">
             <!-- search input field -->
-            <form class="form-search ng-pristine ng-valid" ng-submit="submitForm()">
-                <input type="text" class="form-control ng-pristine ng-valid" ng-model="search"
-                       placeholder="search the docs" tabindex="1" accesskey="s" focused="focused">
+            <!--<form class="form-search ng-pristine ng-valid" ng-submit="submitForm()">-->
+                <!--<input type="text" class="form-control ng-pristine ng-valid" ng-model="search"-->
+                       <!--placeholder="search the docs" tabindex="1" accesskey="s" focused="focused">-->
 
-                <div class="spacer"></div>
+                <!--<div class="spacer"></div>-->
 
-                <ul class="nav nav-list well">
-                    <li><a>Linki1</a></li>
-                    <li><a>Linki2</a></li>
-                </ul>
-            </form>
+                <!--<ul class="nav nav-list well">-->
+                    <!--<li><a>Linki1</a></li>-->
+                    <!--<li><a>Linki2</a></li>-->
+                <!--</ul>-->
+            <!--</form>-->
 
             <!-- left panel list -->
 
@@ -90,8 +90,10 @@
             <!-- inline nested node template -->
             <script type="text/ng-template" id="nodes_renderer.html">
                 <div ui-tree-handle class="tree-node tree-node-content">
-                    <button class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag ng-click="toggle(this)">
-                        <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
+                    <button class="btn btn-success btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag
+                            ng-click="toggle(this)">
+                        <span class="glyphicon"
+                              ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
                     </button>
                     {{node.title}}
                     <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)">
@@ -114,6 +116,77 @@
                 </ol>
             </div>
 
+
+            <div ui-tree="options">
+
+                <h3>分组</h3>
+                <ol ui-tree-nodes ng-model="groups" data-type="group">
+                    <li ng-repeat="group in groups" ui-tree-node>
+                        <div class="group-title angular-ui-tree-handle" ng-show="!group.editing">
+                            <a href="" class="btn btn-danger btn-xs pull-right" data-nodrag
+                               ng-click="removeGroup(group)"><i class="glyphicon glyphicon-remove"></i></a>
+                            <a href="" class="btn btn-primary btn-xs pull-right" data-nodrag
+                               ng-click="editGroup(group)"><i class="glyphicon glyphicon-pencil"></i></a>
+
+                            <div>{{group.Name}}</div>
+                        </div>
+                        <div class="group-title angular-ui-tree-handle" data-nodrag ng-show="group.editing">
+                            <form class="form-inline" role="form">
+                                <div class="form-group">
+                                    <label class="sr-only" for="groupName">名字</label>
+                                    <input type="text" class="form-control" placeholder="组名"
+                                           ng-model="group.name">
+                                </div>
+                                <button type="submit" class="btn btn-default" ng-click="saveGroup(group)">保存</button>
+                                <button type="submit" class="btn btn-default" ng-click="cancelEditingGroup(group)">取消</button>
+                            </form>
+                        </div>
+                        <ol ui-tree-nodes ng-model="group.categories" data-type="category">
+                            <li ng-repeat="category in group.categories" ui-tree-node>
+                                <div class="category-title angular-ui-tree-handle">
+                                    <a href="" class="btn btn-danger btn-xs pull-right" data-nodrag
+                                       ng-click="removeCategory(group, category)"><i
+                                        class="glyphicon glyphicon-remove"></i></a>
+
+                                    <div>
+                                        {{category.name}}
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                        <ol class="angular-ui-tree-nodes" data-nodrag>
+                            <li class="angular-ui-tree-node">
+                                <div class="category-title angular-ui-tree-handle">
+                                    <form class="form-inline" role="form">
+                                        <div class="form-group">
+                                            <label class="sr-only" for="categoryName">公众号</label>
+                                            <input type="text" class="form-control" ng-model="group.newCategoryName"
+                                                   placeholder="微信号">
+                                        </div>
+                                        <button type="submit" class="btn btn-default" ng-click="addCategory(group)">添加公众号
+                                        </button>
+                                    </form>
+                                </div>
+                            </li>
+                        </ol>
+                    </li>
+                </ol>
+                <ol class="angular-ui-tree-nodes">
+                    <li class="angular-ui-tree-node">
+                        <div class="group-title angular-ui-tree-handle">
+                            <form class="form-inline" role="form">
+                                <div class="form-group">
+                                    <label class="sr-only" for="groupName">组名</label>
+                                    <input type="text" class="form-control" id="groupName" placeholder="组名">
+                                </div>
+                                <button type="submit" class="btn btn-default" ng-click="addGroup()">创建新组</button>
+                            </form>
+                        </div>
+                    </li>
+                </ol>
+
+            </div>
+
         </div>
 
         <!-- right panel -->
@@ -134,7 +207,6 @@
             </div>
         </div>
     </div>
-
 
 </div>
 

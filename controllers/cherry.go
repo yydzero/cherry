@@ -61,3 +61,12 @@ func (c *CherryController) Resource(v interface{}) {
 	c.ServeJson()
 }
 
+func (c *CherryController) Resources(v interface{}) {
+	r := Response{
+		Status: "ok",
+		Resources: v.([]interface{}),
+	}
+	c.Data["json"] = r
+	c.ServeJson()
+}
+

@@ -19,6 +19,7 @@ func init() {
 	orm.RegisterDataBase("default", "postgres", url, maxIdle, maxConn)
 
 	orm.RegisterModelWithPrefix("cherry_", new(User))
+	orm.RegisterModelWithPrefix("cherry_", new(Group))
 
 	err := orm.RunSyncdb("default", false, false)
 	if err != nil {
