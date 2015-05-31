@@ -20,6 +20,7 @@ func init() {
 
 	orm.RegisterModelWithPrefix("cherry_", new(User))
 	orm.RegisterModelWithPrefix("cherry_", new(Group))
+	orm.RegisterModelWithPrefix("cherry_", new(Gzh))
 
 	err := orm.RunSyncdb("default", false, false)
 	if err != nil {

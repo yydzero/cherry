@@ -12,4 +12,7 @@ func init() {
 	beego.Router("/logout", &admin.AuthController{}, "get,post:Logout")
 
 	beego.Router("/groups/?:id", &controllers.GroupController{})
+
+	// 公众号 CRUD
+	beego.Router("/gzh/?:id", &controllers.GzhController{})
 }
