@@ -15,15 +15,26 @@ type GzhController struct {
 
 // Signup will register new user
 func (this *GzhController) Get() {
-	var groups []*models.Group
-	_, err := o.QueryTable("cherry_group").All(&groups)
+	var gzhs []*models.Gzh
+	_, err := o.QueryTable("cherry_gzh").All(&gzhs)
 
 	if (err != nil) {
 		this.Fail(err.Error())
 		return
 	}
 
-	this.Resource(groups)
+	this.Resource(gzhs)
+}
+
+func (this *GzhController) Delete() {
+	openId := this.Ctx.Input.Param(":id")
+
+	if num, err := o.Delete(&models.Gzh{OpenId: openId}); err != nil {
+		this.Fail(err.Error())
+		return
+	} else {
+		this.Ok(fmt.Sprintf("%d deleted", num))
+	}
 }
 
 

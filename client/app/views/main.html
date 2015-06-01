@@ -72,6 +72,7 @@
             <section id="subscript">
                 <header>
                     <h2>公众号关注列表</h2>
+                    <label ng-if="message">{{message}}</label>
                     <form id="subscript-form" ng-submit="addSubscription()">
                         <input id="new-subscript" placeholder="关注公众号" ng-model="newSubscription" ng-disabled="saving" autofocus />
                     </form>
@@ -80,8 +81,8 @@
                 <section id="main">
                     <ul id="subscript-list">
                         <li ng-repeat="subscript in subscripts | orderBy track by $index">
-                            <label>{{subscript.name}}</label>
-                            <button class="destroy" ng-click="removeSubscript(subscript)"></button>
+                            <label>{{subscript.Name}}</label>
+                            <button class="destroy" ng-click="removeSubscription(subscript)"></button>
                         </li>
                     </ul>
                 </section>

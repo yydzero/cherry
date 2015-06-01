@@ -9,16 +9,27 @@
  */
 angular.module('clientApp').controller('MainCtrl', ['$scope', '$http', '$log', 'config', function ($scope, $http, $log, config) {
 
-    $scope.subscripts = [
-        {
-            name: '大数据文摘'
-        },
-        {
-            name: '大数据那些事'
-        }
-    ];
+    $scope.message = '';
 
     $scope.newSubscription = '';
+
+    $scope.subscripts = [];
+
+    $scope.getSubscriptions = function() {
+        $http.get(config.url + '/gzh')
+            .success(function (resp) {
+                $log.info(resp);
+                if (resp.Status === 'ok') {
+                    $scope.subscripts = resp.Resource;
+                    $scope.message = '';
+                } else {
+                    $scope.message = resp.Message
+                }
+            }).error(function (error) {
+                $scope.message = '不能获得订阅的公众号列表.';
+            }
+        );
+    };
 
     $scope.addSubscription = function() {
         console.log('subscript is called.');
@@ -30,12 +41,46 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', '$http', '$log', '
         }
 
         // 验证公众号是否存在
-        $scope.newSubscription = '验证公众号：' + $scope.newSubscription + ' 是否存在 ...';
+        $scope.newSubscription = '查找公众号：' + $scope.newSubscription + '  ...';
 
-
-
-        $scope.subscripts.push(ns)
+        $http.post(config.url + '/gzh', { "Name": ns.name })
+            .success(function (resp) {
+                $log.info(resp);
+                if (resp.Status === 'ok') {
+                    $scope.subscripts = $scope.subscripts.concat(resp.Resource);
+                    $scope.newSubscription = '';
+                } else {
+                    $scope.newSubscription = resp.Message
+                }
+            }).error(function (error) {
+                $scope.newSubscription = '公众号：' + $scope.newSubscription + ' 不存在';
+            }
+        );
     };
 
+    $scope.removeSubscription = function(subscription) {
+        console.log(subscription);
+        if (!subscription || !subscription.OpenId) {
+            return;
+        }
+
+        console.log('remove is called');
+
+        $http.delete(config.url + '/gzh/' + subscription.OpenId)
+            .success(function (resp) {
+                $log.info(resp);
+                if (resp.Status === 'ok') {
+                    _.remove($scope.subscripts, function (v) { return v === subscription; });
+                    $scope.newSubscription = '';
+                } else {
+                    $scope.newSubscription = resp.Message
+                }
+            }).error(function (error) {
+                $scope.newSubscription = '公众号：' + $scope.newSubscription + ' 不存在';
+            }
+        );
+    };
+
+    $scope.getSubscriptions();
 
 }]);
