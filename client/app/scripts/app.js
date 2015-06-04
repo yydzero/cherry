@@ -55,18 +55,42 @@ angular
         };
         return myInterceptor;
     }])
-    .config(['$httpProvider', function($httpProvider) {
+    .filter('secondsToDateTime', [function () {
+        return function (seconds) {
+            return new Date(1970, 0, 1).setSeconds(seconds);
+        };
+    }])
+    .directive('notification', function($timeout){
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                ngModel: '='
+            },
+            template: '<div class="alert alert-warning fade" bs-alert="ngModel"></div>',
+            link: function(scope, element, attrs){
+                $timeout(function(){
+                    element.remove();
+                }, 50000);
+            }
+        }
+    })
+    .config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('myInterceptor');
     }])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider
-            .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
+            .when('/gzh/:openId', {
+                templateUrl: 'views/gzh.html',
+                controller: 'GzhCtrl'
             })
             .when('/login', {
                 templateUrl: 'views/login.html',
                 controller: 'LoginCtrl'
+            })
+            .when('/', {
+                templateUrl: 'views/main.html',
+                controller: 'MainCtrl'
             })
             .otherwise({
                 redirectTo: '/'

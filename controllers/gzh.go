@@ -33,7 +33,7 @@ func (this *GzhController) Delete() {
 		this.Fail(err.Error())
 		return
 	} else {
-		this.Ok(fmt.Sprintf("%d deleted", num))
+		this.Ok(fmt.Sprintf("%d 删除", num))
 	}
 }
 
@@ -47,7 +47,7 @@ func (this *GzhController) Post() {
 	}
 
 	if gzh.Name == "" {
-		this.Fail("gzh name could not be empty")
+		this.Fail("公众号名字不能为空")
 		return
 	}
 
@@ -60,7 +60,7 @@ func (this *GzhController) Post() {
 
 	// 是否已经存在
 	if g != nil {
-		this.Fail(fmt.Sprintf("gzh '%s' exist already", gzh.Name))
+		this.Fail(fmt.Sprintf("公众号 '%s' 已关注", gzh.Name))
 		return
 	}
 

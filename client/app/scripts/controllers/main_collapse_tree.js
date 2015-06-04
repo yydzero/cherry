@@ -11,7 +11,7 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', function ($scope) 
 
     // below are deprecated
 
-    $scope.info = "";
+    $scope.info = '';
     $scope.groups = [];
 
     $scope.getGroups = function () {
@@ -20,7 +20,7 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', function ($scope) 
                 $scope.groups = resp.Resource;
                 $log.info($scope.groups);
             }).error(function (error) {
-                $log.info("group save failed");
+                $log.info('group save failed');
             });
     };
 
@@ -31,20 +31,20 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', function ($scope) 
             window.alert('You can\'t add more than 10 groups!');
             return;
         }
-        var groupName = document.getElementById("groupName").value;
+        var groupName = document.getElementById('groupName').value;
         if (groupName.length > 0) {
             $http.post(config.url + '/groups', {
                 name: groupName,
                 categories: ''
             }).success(function () {
-                $log.info("group saved correctly");
+                $log.info('group saved correctly');
 
                 $scope.getGroups();
             }).error(function (error) {
-                $log.info("group save failed");
+                $log.info('group save failed');
             });
 
-            document.getElementById("groupName").value = '';
+            document.getElementById('groupName').value = '';
         }
     };
 
@@ -66,9 +66,9 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', function ($scope) 
             $scope.groups.splice(index, 1);
 
             $http.delete(config.url + '/groups/' + group.Id).success(function () {
-                $log.info("group delete correctly");
+                $log.info('group delete correctly');
             }).error(function (error) {
-                $log.info("group delete failed");
+                $log.info('group delete failed');
             });
         }
     };
@@ -88,7 +88,7 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', function ($scope) 
         group.categories.$add({
             name: group.newCategoryName,
             sortOrder: group.categories.length,
-            type: "category"
+            type: 'category'
         });
         group.newCategoryName = '';
         group.save();
@@ -161,7 +161,7 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', function ($scope) 
     };
 
     var getRootNodesScope = function() {
-        return angular.element(document.getElementById("tree-root")).scope();
+        return angular.element(document.getElementById('tree-root')).scope();
     };
 
     $scope.collapseAll = function() {
@@ -175,71 +175,71 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', function ($scope) 
     };
 
     $scope.data = [{
-        "id": 1,
-        "title": "node1",
-        "nodes": [
+        'id': 1,
+        'title': 'node1',
+        'nodes': [
             {
-                "id": 11,
-                "title": "node1.1",
-                "nodes": [
+                'id': 11,
+                'title': 'node1.1',
+                'nodes': [
                     {
-                        "id": 111,
-                        "title": "node1.1.1",
-                        "nodes": []
+                        'id': 111,
+                        'title': 'node1.1.1',
+                        'nodes': []
                     }
                 ]
             },
             {
-                "id": 12,
-                "title": "node1.2",
-                "nodes": []
+                'id': 12,
+                'title': 'node1.2',
+                'nodes': []
             }
         ],
     }, {
-        "id": 2,
-        "title": "node2",
-        "nodes": [
+        'id': 2,
+        'title': 'node2',
+        'nodes': [
             {
-                "id": 21,
-                "title": "node2.1",
-                "nodes": []
+                'id': 21,
+                'title': 'node2.1',
+                'nodes': []
             },
             {
-                "id": 22,
-                "title": "node2.2",
-                "nodes": []
+                'id': 22,
+                'title': 'node2.2',
+                'nodes': []
             }
         ],
     }, {
-        "id": 3,
-        "title": "node3",
-        "nodes": [
+        'id': 3,
+        'title': 'node3',
+        'nodes': [
             {
-                "id": 31,
-                "title": "node3.1",
-                "nodes": []
+                'id': 31,
+                'title': 'node3.1',
+                'nodes': []
             }
         ]
     }];
 
     $scope.myData = [
         {
-            "firstName": "Cox",
-            "lastName": "Carney",
-            "company": "Enormo",
-            "employed": true
+            'firstName': 'Cox',
+            'lastName': 'Carney',
+            'company': 'Enormo',
+            'employed': true
         },
         {
-            "firstName": "Lorraine",
-            "lastName": "Wise",
-            "company": "Comveyer",
-            "employed": false
+            'firstName': 'Lorraine',
+            'lastName': 'Wise',
+            'company': 'Comveyer',
+            'employed': false
         },
         {
-            "firstName": "Nancy",
-            "lastName": "Waters",
-            "company": "Fuelton",
-            "employed": false
+            'firstName': 'Nancy',
+            'lastName': 'Waters',
+            'company': 'Fuelton',
+            'employed': false
         }
     ];
 

@@ -9,7 +9,7 @@ import (
 var o orm.Ormer
 
 func init() {
-	orm.Debug = true
+	// orm.Debug = true
 	orm.RegisterDriver("postgres", orm.DR_Postgres)
 
 	url := fmt.Sprintf("postgres://%s@localhost:5432/cherry?sslmode=disable", os.Getenv("USER"));
@@ -21,6 +21,7 @@ func init() {
 	orm.RegisterModelWithPrefix("cherry_", new(User))
 	orm.RegisterModelWithPrefix("cherry_", new(Group))
 	orm.RegisterModelWithPrefix("cherry_", new(Gzh))
+	orm.RegisterModelWithPrefix("cherry_", new(Articles))
 
 	err := orm.RunSyncdb("default", false, false)
 	if err != nil {

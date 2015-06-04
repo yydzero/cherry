@@ -44,7 +44,7 @@ body {
 
 
 #new-subscript {
-  padding: 16px 16px 16px 45px;
+  padding: 16px 16px 16px 15px;
   border: none;
   background: rgba(0, 0, 0, 0.003);
   box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
@@ -109,7 +109,7 @@ body {
   white-space: pre;
   word-break: break-word;
   padding: 5px 5px 5px 5px;
-  margin-left: 45px;
+  margin-left: 15px;
   display: block;
   line-height: 1.2;
   transition: color 0.4s;
@@ -153,3 +153,58 @@ body {
 #subscript-list li.editing:last-child {
   margin-bottom: -1px;
 }
+
+
+
+// 公众号文章列表
+
+.articles section {
+  background-color: #fff;
+  border-color: #ddd;
+  border-width: 1px;
+  border-radius: 4px 4px 0 0;
+
+  margin-left: 150px;
+  margin-right: 150px;
+
+  position: relative;
+  border-color: #e5e5e5 #eee #eee;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.articles h4 {
+  cursor: pointer;
+}
+
+.bg-blue {
+  margin-top: 0;
+  padding-top: 15px;
+  height: 100%;
+  overflow: visible;
+}
+
+.bg-blue.hover {
+  background: #f4f8ff;
+}
+
+.wx-rb {
+  display: block;
+  text-decoration: none;
+  zoom: 1;
+  position: relative;
+ // border-bottom: 1px solid #f2f2f2;
+  padding-bottom: 10px;
+}
+
+.glyphicon-remove {
+  margin-right: 10px;
+}
+
+.glyphicon-remove:hover {
+  color: #BC2328;
+  background-color: #198764;
+}
+
+
+

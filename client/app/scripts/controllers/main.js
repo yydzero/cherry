@@ -7,7 +7,8 @@
  * # MainCtrl
  * Controller of the clientApp
  */
-angular.module('clientApp').controller('MainCtrl', ['$scope', '$http', '$log', 'config', function ($scope, $http, $log, config) {
+angular.module('clientApp').controller('MainCtrl', ['$scope', '$http', '$log', 'config', 'gzhService',
+    function ($scope, $http, $log, config, gzhService) {
 
     $scope.message = '';
 
@@ -23,7 +24,7 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', '$http', '$log', '
                     $scope.subscripts = resp.Resource;
                     $scope.message = '';
                 } else {
-                    $scope.message = resp.Message
+                    $scope.message = resp.Message;
                 }
             }).error(function (error) {
                 $scope.message = '不能获得订阅的公众号列表.';
@@ -37,23 +38,23 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', '$http', '$log', '
             name: $scope.newSubscription.trim()
         };
         if (! ns.name) {
-            return
+            return;
         }
 
         // 验证公众号是否存在
-        $scope.newSubscription = '查找公众号：' + $scope.newSubscription + '  ...';
+        $scope.message = '查找公众号：' + $scope.newSubscription + '  ...';
 
-        $http.post(config.url + '/gzh', { "Name": ns.name })
+        $http.post(config.url + '/gzh', { 'Name': ns.name })
             .success(function (resp) {
                 $log.info(resp);
                 if (resp.Status === 'ok') {
                     $scope.subscripts = $scope.subscripts.concat(resp.Resource);
                     $scope.newSubscription = '';
                 } else {
-                    $scope.newSubscription = resp.Message
+                    $scope.message = resp.Message;
                 }
             }).error(function (error) {
-                $scope.newSubscription = '公众号：' + $scope.newSubscription + ' 不存在';
+                $scope.message = '公众号：' + $scope.newSubscription + ' 不存在';
             }
         );
     };
@@ -73,10 +74,10 @@ angular.module('clientApp').controller('MainCtrl', ['$scope', '$http', '$log', '
                     _.remove($scope.subscripts, function (v) { return v === subscription; });
                     $scope.newSubscription = '';
                 } else {
-                    $scope.newSubscription = resp.Message
+                    $scope.message = resp.Message;
                 }
             }).error(function (error) {
-                $scope.newSubscription = '公众号：' + $scope.newSubscription + ' 不存在';
+                $scope.message = '公众号：' + $scope.newSubscription + ' 不存在';
             }
         );
     };

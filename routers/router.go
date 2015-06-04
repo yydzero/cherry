@@ -13,6 +13,15 @@ func init() {
 
 	beego.Router("/groups/?:id", &controllers.GroupController{})
 
-	// 公众号 CRUD
+	// 公众号 CRUD 基本信息
 	beego.Router("/gzh/?:id", &controllers.GzhController{})
+
+	// 公众号爬虫爬取情况
+	beego.Router("/stats/?:id", &controllers.StatsController{})
+
+	// 爬虫
+	beego.Router("/crawl/?:id", &controllers.CrawlController{})
+
+	// 文章列表
+	beego.Router("/article/?:id", &controllers.ArticleController{})
 }
