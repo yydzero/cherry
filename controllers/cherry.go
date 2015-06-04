@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/ninedata/goat"
+	"strconv"
 )
 
 var o orm.Ormer
@@ -24,6 +25,12 @@ type Response struct {
 	Message   string
 	Resource  interface{}
 	Resources []interface{}
+}
+
+func (c *CherryController) GetId() (int, error) {
+	idstr := c.Ctx.Input.Param(":id")
+
+	return strconv.Atoi(idstr)
 }
 
 func (c *CherryController) GetORM() orm.Ormer {

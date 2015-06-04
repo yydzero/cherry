@@ -84,6 +84,10 @@ angular
                 templateUrl: 'views/gzh.html',
                 controller: 'GzhCtrl'
             })
+            .when('/article/:id', {
+                templateUrl: 'views/article.html',
+                controller: 'ArticleCtrl'
+            })
             .when('/login', {
                 templateUrl: 'views/login.html',
                 controller: 'LoginCtrl'

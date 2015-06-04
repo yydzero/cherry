@@ -23,5 +23,6 @@ func init() {
 	beego.Router("/crawl/?:id", &controllers.CrawlController{})
 
 	// 文章列表
-	beego.Router("/article/?:id", &controllers.ArticleController{})
+	beego.Router("/article", &controllers.ArticlesController{})
+	beego.Router("/article/:id", &controllers.ArticleController{})
 }

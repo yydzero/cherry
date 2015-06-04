@@ -1,7 +1,6 @@
 package controllers
 import (
 	"github.com/yydzero/cherry/models"
-	"strconv"
 )
 
 type ArticleController struct {
@@ -11,36 +10,24 @@ type ArticleController struct {
 // Signup will register new user
 // TODO: pg 不支持 byte[] 类型。
 func (this *ArticleController) Get() {
-	openId := this.GetString("openId")
-	docId := this.GetString("docId")
-
-	var articles []*models.Articles
-	qs := o.QueryTable("cherry_articles")
-	if openId != "" {
-		qs = qs.Filter("OpenId", openId)
-	}
-	if docId != "" {
-		qs = qs.Filter("DocId", docId)
-	}
-
-	_, err := qs.All(&articles, "Id", "OpenId", "SourceName", "Title", "Url", "Content", "PageSize", "LastModified", "Date")
+	id, err := this.GetId()
 	if err != nil {
 		this.Fail(err.Error())
 		return
 	}
 
-	this.Resource(articles)
-}
+	article := models.Articles{Id: id}
 
-func (this *ArticleController) Delete() {
-	idstr := this.Ctx.Input.Param(":id")
-
-	if idstr == "" {
-		this.Fail("delete resource without id")
+	if err = o.Read(&article); err != nil {
+		this.Fail(err.Error())
 		return
 	}
 
-	id, err := strconv.Atoi(idstr)
+	this.Resource(article)
+}
+
+func (this *ArticleController) Delete() {
+	id, err := this.GetId()
 	if err != nil {
 		this.Fail(err.Error())
 		return

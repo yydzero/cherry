@@ -25,7 +25,7 @@
                         <li ng-repeat="(url, name) in sections" ng-class="{active: isActivePath(url)}"
                             class="ng-scope active">
                             <a ng-href="#/tutorial" class="ng-binding" href="#/tutorial"><i
-                                class="icon-book icon-white"></i> Tutorial</a>
+                                    class="icon-book icon-white"></i> Tutorial</a>
                         </li>
                         <!-- end ngRepeat: (url, name) in sections -->
                     </ul>
@@ -42,34 +42,6 @@
 </div>
 
 
-<!-- 页面body -->
-<div class="container-fluid">
-    <div class="row clear-navbar"></div>
-
-    <alert class="alert-warning text-center" type="danger" ng-if="message">
-        <p class="text-center">{{message}}</p>
-    </alert>
-
-
-    <div class="articles bg-blue wx-rb" ng-repeat="article in articles | orderBy:'LastModified':true">
-        <section>
-            <div>
-                <h4>
-                    <a ng-href="/#/article/{{article.Id}}">{{article.Title}} &nbsp; {{article.Id}}</a>
-                    <span ng-click="removeArticle(article)" class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </h4>
-            </div>
-            <article>
-                <p>{{article.Content}}</p>
-            </article>
-            <div>
-                <bold>来自公众号“{{article.SourceName}}”</bold> &nbsp;&nbsp;
-                {{article.Date}} &nbsp;&nbsp;
-                {{article.PageSize}}
-            </div>
-        </section>
-    </div>
-
-</div>
-
+<div  ng-bind-html="fullContent"></div>
+<!--<div  ng-bind-html-unsafe="fullContent"></div>-->
 
