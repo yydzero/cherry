@@ -19,6 +19,6 @@ type Articles struct {
 	LastModified uint64	`xml:"lastModified"`
 
 	Id int				`orm:"pk;auto"`		// need to use 'auto' tag, otherwise, will get 'no LastInsertId available' error.
-	FullContent string
+	FullContent string	`orm:"size(10485760)"`
 	CrawledAt uint64
 }

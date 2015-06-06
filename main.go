@@ -4,8 +4,6 @@ import (
 	"log"
 
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/plugins/cors"
-
 	// To init models
 	_ "github.com/yydzero/cherry/models"
 
@@ -13,6 +11,7 @@ import (
 	_ "github.com/yydzero/cherry/routers"
 
 	_ "github.com/lib/pq"
+	"github.com/astaxie/beego/plugins/cors"
 )
 
 func main() {
@@ -28,6 +27,9 @@ func main() {
 		AllowCredentials: true,
 	}
 	filterFunc := cors.Allow(opts)
+
+	beego.DirectoryIndex=true
+	beego.StaticDir["/static"] = "/Users/yyao/workspace/go/golang/src/github.com/yydzero/cherry/client/dist"
 
 	beego.InsertFilter("*", beego.BeforeRouter, filterFunc)
 
