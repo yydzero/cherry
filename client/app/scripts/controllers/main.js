@@ -7,14 +7,17 @@
  * # MainCtrl
  * Controller of the clientApp
  */
-angular.module('clientApp').controller('MainCtrl', ['$scope', '$http', '$log', 'config', 'gzhService',
-    function ($scope, $http, $log, config, gzhService) {
+angular.module('clientApp').controller('MainCtrl', ['$scope', '$http', '$log', 'config', 'gzhService', function ($scope, $http, $log, config, gzhService) {
 
     $scope.message = '';
 
     $scope.newSubscription = '';
 
     $scope.subscripts = [];
+
+    $scope.config = config;
+
+    console.log($scope.config);
 
     $scope.getSubscriptions = function() {
         $http.get(config.url + '/gzh')

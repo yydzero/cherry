@@ -12,6 +12,7 @@ angular.module('clientApp').factory('gzhService', ['$http', '$log', '$q', 'confi
 
         // 从数据库中读取每个公众号的抓取状态，包括文章数、日期等。
         getGzhCrawlStatus: function () {
+            var self = this;
             var deferred = $q.defer();
 
             $http.get(config.url + '/stats').success(function (resp) {

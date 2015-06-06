@@ -55,7 +55,7 @@
         <section>
             <div>
                 <h4>
-                    <a ng-href="/#/article/{{article.Id}}">{{article.Title}} &nbsp; {{article.Id}}</a>
+                    <a ng-href="{{config.hrefPrefix}}/article/{{article.Id}}">{{article.Title}} &nbsp; {{article.Id}}</a>
                     <span ng-click="removeArticle(article)" class="pull-right glyphicon glyphicon-remove" aria-hidden="true"></span>
                 </h4>
             </div>

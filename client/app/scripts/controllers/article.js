@@ -5,6 +5,7 @@ angular.module('clientApp').controller('ArticleCtrl', ['$scope', '$http', '$rout
     $scope.fullContent = '';
     $scope.message = '';
     $scope.deleting = false;
+    $scope.config = config;
 
     function stripScripts(s) {
         var div = document.createElement('div');

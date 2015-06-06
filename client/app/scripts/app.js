@@ -20,7 +20,8 @@ angular
         'ui.tree'
     ])
     .constant('config', {
-        url: 'http://localhost:8080'
+        url: 'http://localhost:8080',
+        hrefPrefix: '/static/#'
     })
     .factory('myInterceptor', ['$rootScope', '$q', '$timeout', '$cookies', function ($rootScope, $q, $timeout, $cookies) {
         var myInterceptor = {

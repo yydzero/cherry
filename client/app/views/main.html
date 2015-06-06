@@ -118,7 +118,7 @@
 
                         <tbody>
                         <tr ng-repeat="gzh in crawlStats">
-                            <td><a ng-href="/#/gzh/{{gzh.OpenId}}">{{gzh.Name}}</a></td>
+                            <td><a ng-href="{{config.hrefPrefix}}/gzh/{{gzh.OpenId}}">{{gzh.Name}}</a></td>
                             <td>{{gzh.Articles}}</td>
                             <td>{{gzh.LastModified | secondsToDateTime | date }}</td>
                             <td>{{gzh.CrawledAt | secondsToDateTime | date }}</td>

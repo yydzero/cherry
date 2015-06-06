@@ -12,6 +12,7 @@ import (
 
 	_ "github.com/lib/pq"
 	"github.com/astaxie/beego/plugins/cors"
+	"github.com/yydzero/surf"
 )
 
 func main() {
@@ -29,7 +30,8 @@ func main() {
 	filterFunc := cors.Allow(opts)
 
 	beego.DirectoryIndex=true
-	beego.StaticDir["/static"] = "/Users/yyao/workspace/go/golang/src/github.com/yydzero/cherry/client/dist"
+
+	beego.StaticDir["/static"] = surf.GetCurrentDir() + "/client/dist"
 
 	beego.InsertFilter("*", beego.BeforeRouter, filterFunc)
 

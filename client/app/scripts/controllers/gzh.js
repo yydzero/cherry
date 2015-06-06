@@ -6,6 +6,7 @@ angular.module('clientApp').controller('GzhCtrl', ['$scope', '$http', '$routePar
     $scope.articles = [];
     $scope.message = '';
     $scope.deleting = false;
+    $scope.config = config;
 
     $scope.getArticlesByOpenId = function(openId) {
         console.log(openId);
