@@ -50,6 +50,26 @@ angular.module('clientApp').factory('gzhService', ['$http', '$log', '$q', 'confi
             });
 
             return deferred.promise;
+        },
+
+        crawlAll: function() {
+            var deferred = $q.defer();
+            var gzhStats = {};
+
+            $http.get(config.url + '/crawl/').success(function (resp) {
+                if (resp.Status === 'ok') {
+                    gzhStats = resp.Resource;
+
+                    deferred.resolve(gzhStats);
+                } else {
+                    console.log(resp.Message);
+                }
+            }).error(function (error) {
+                console.log(error);
+                deferred.reject({message: "Really bad"});
+            });
+
+            return deferred.promise;
         }
 
         //getGzhCrawlStatus: function() {

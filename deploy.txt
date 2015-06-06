@@ -1,0 +1,22 @@
+index a4305da..b347756 100644
+--- a/client/app/scripts/app.js
++++ b/client/app/scripts/app.js
+@@ -20,7 +20,7 @@ angular
+         'ui.tree'
+     ])
+     .constant('config', {
+-        url: 'http://localhost:8080'
++        url: 'http://45.33.97.162:8080'
+     })
+     .factory('myInterceptor', ['$rootScope', '$q', '$timeout', '$cookies', function ($rootScope, $q, $timeout, $cookies) {
+         var myInterceptor = {
+diff --git a/models/base.go b/models/base.go
+index a6261ae..5426963 100644
+--- a/models/base.go
++++ b/models/base.go
+@@ -12,7 +12,7 @@ func init() {
+        // orm.Debug = true
+        orm.RegisterDriver("postgres", orm.DR_Postgres)
+
+-       url := fmt.Sprintf("postgres://%s@localhost:5432/cherry?sslmode=disable", os.Getenv("USER"));
++       url := fmt.Sprintf("postgres://%s:cherry2emc@localhost:5432/cherry?sslmode=disable", os.Getenv("USER"));

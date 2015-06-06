@@ -9,7 +9,7 @@ import (
 var o orm.Ormer
 
 func init() {
-	// orm.Debug = true
+//	orm.Debug = true		// 打开这个开关，article 的完整内容会写到 log 里面，内容太多。
 	orm.RegisterDriver("postgres", orm.DR_Postgres)
 
 	url := fmt.Sprintf("postgres://%s@localhost:5432/cherry?sslmode=disable", os.Getenv("USER"));

@@ -20,22 +20,8 @@ type CrawlController struct {
 // TODO: 更健壮的 chan 模式来处理任何一端可能出错。
 // "no LastInsertId available"???
 func (this *CrawlController) Get() {
-	openId := this.Ctx.Input.Param(":id")
-
-	var stat Stats
-	err := o.Raw(STATS_QUERY_ROW, openId).QueryRow(&stat)
-	if err != nil {
-		this.Fail(err.Error())
-		return
-	}
-
-	beego.Notice("crawling articles for Id: ", openId)
-
-	now := time.Now()
-	secs := now.Unix()
-
-	c := make(chan *weichat.Article, 10)
 	var wg sync.WaitGroup
+	c := make(chan *weichat.Article, 10)
 
 	wg.Add(1)
 	go func() {
@@ -64,7 +50,8 @@ func (this *CrawlController) Get() {
 			a.ImgLink = article.ImgLink
 			a.ShowUrl = article.ShowUrl
 			a.PageSize = article.PageSize
-			a.CrawledAt = uint64(secs)
+
+			a.CrawledAt = uint64(time.Now().Unix())
 
 //			log.Printf("article: %v\n", a)
 
@@ -80,24 +67,58 @@ func (this *CrawlController) Get() {
 		}
 	}()
 
-	err = api.CrawlGzh(openId, "", stat.LastModified, c)
+	err := this.crawlGzhArticles(c)
 	if err != nil {
 		this.Fail(err.Error())
-		//				close(c)	// 不能在这里close，否则造成其他goroutine向chan放置数据时异常。
 		return
 	}
-	close(c)
 
 	wg.Wait()
 
 	// 返回该公众号的爬去状态，例如文章数、最新文章日期等。
-	err = o.Raw(STATS_QUERY_ROW, openId).QueryRow(&stat)
+	stats, err := this.getGzhListToCrawl()
+
+	close(c)		// 保证我们呢close channel
+
 	if err != nil {
 		this.Fail(err.Error())
 		return
 	}
 
-	beego.Notice(stat)
+	beego.Notice(stats)
 
-	this.Resource(stat)
+	this.Resource(stats)
+}
+
+func (this *CrawlController) crawlGzhArticles(c chan<- *weichat.Article) (error) {
+	stats, err := this.getGzhListToCrawl()
+	if err != nil {
+		return err;
+	}
+
+	for _, stat := range stats {
+		openId := stat.OpenId
+		beego.Notice("crawling articles for Id: ", openId)
+
+		err = api.CrawlGzh(openId, "", stat.LastModified, c)
+		if err != nil {
+			//				close(c)	// 不能在这里close，否则造成其他goroutine向chan放置数据时异常。
+			return err
+		}
+	}
+	return nil
+}
+
+func (this *CrawlController) getGzhListToCrawl() (stats []Stats, err error) {
+	openId := this.Ctx.Input.Param(":id")
+
+	orm.Debug = true
+	if openId != "" {
+		_, err = o.Raw(STATS_QUERY_ROW, openId).QueryRows(&stats)
+	} else {
+		_, err = o.Raw(STATS_QUERY).QueryRows(&stats)
+	}
+	orm.Debug = false
+
+	return stats, err
 }
