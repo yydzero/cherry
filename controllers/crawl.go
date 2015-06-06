@@ -90,6 +90,24 @@ func (this *CrawlController) Get() {
 	this.Resource(stats)
 }
 
+
+
+func (this *CrawlController) getCrawledDocIds(openId string) (map[string]int, error) {
+	var articles []*models.Articles
+
+	article := models.Articles{}
+	if _, err := o.QueryTable(article).Filter("OpenId", openId).Limit(10000).All(&articles, "DocId"); err != nil {
+		return nil, err
+	}
+
+	result := make(map[string]int, len(articles))
+	for _, v := range articles {
+		result[v.DocId] = 1
+	}
+
+	return result, nil
+}
+
 func (this *CrawlController) crawlGzhArticles(c chan<- *weichat.Article) (error) {
 	stats, err := this.getGzhListToCrawl()
 	if err != nil {
@@ -100,12 +118,19 @@ func (this *CrawlController) crawlGzhArticles(c chan<- *weichat.Article) (error)
 		openId := stat.OpenId
 		beego.Notice("crawling articles for Id: ", openId)
 
-		err = api.CrawlGzh(openId, "", stat.LastModified, c)
+		docIds, err := this.getCrawledDocIds(openId)
+		if err != nil {
+			log.Printf("failed to get docIds for openId: %s\n", openId)
+		}
+
+		err = api.CrawlGzh(openId, docIds, stat.LastModified, c)
 		if err != nil {
 			//				close(c)	// 不能在这里close，否则造成其他goroutine向chan放置数据时异常。
-			return err
+			log.Printf("failed to crawl openId: %s\n", err.Error())
+			continue
 		}
 	}
+
 	return nil
 }
 
