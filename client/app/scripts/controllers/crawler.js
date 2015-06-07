@@ -21,12 +21,12 @@ angular.module('clientApp').controller('CrawlerCtrl', ['$scope', '$timeout', 'gz
     });
 
     $scope.crawlGzh = function(gzh) {
-        $scope.crawlMessage = '抓取公众号：' + gzh.Title + ' ...';
+        $scope.crawlMessage = '抓取公众号：' + gzh.Name + ' ...';
         console.log(gzh);
 
         gzhService.crawlGzh(gzh).then(function(data) {
             console.log(data);
-            $scope.crawlMessage = '抓取公众号：' + gzh.Title + ' 完成';
+            $scope.crawlMessage = '抓取公众号：' + gzh.Name + ' 完成';
 
             if (timeout) $timeout.cancel(timeout);
             timeout = $timeout(function() {
@@ -43,7 +43,7 @@ angular.module('clientApp').controller('CrawlerCtrl', ['$scope', '$timeout', 'gz
         gzhService.crawlAll().then(function(data) {
             console.log(data);
 
-            $scope.crawlMessage = '刷新所有公众号：' + gzh.Title + ' 完成';
+            $scope.crawlMessage = '刷新所有公众号： 完成';
 
             if (timeout) $timeout.cancel(timeout);
             timeout = $timeout(function() {
