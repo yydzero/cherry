@@ -96,7 +96,7 @@ func (this *CrawlController) getCrawledDocIds(openId string) (map[string]int, er
 	var articles []*models.Articles
 
 	article := models.Articles{}
-	if _, err := o.QueryTable(article).Filter("OpenId", openId).Limit(10000).All(&articles, "DocId"); err != nil {
+	if _, err := o.QueryTable(article).Filter("OpenId", openId).Limit(1000).All(&articles, "DocId"); err != nil {
 		return nil, err
 	}
 
@@ -114,7 +114,7 @@ func (this *CrawlController) crawlGzhArticles(c chan<- *weichat.Article) (error)
 		return err;
 	}
 
-	for _, stat := range stats {
+	for _, stat := range stats {		// 遍历抓取每一个公众号
 		openId := stat.OpenId
 		beego.Notice("crawling articles for Id: ", openId)
 
@@ -134,6 +134,7 @@ func (this *CrawlController) crawlGzhArticles(c chan<- *weichat.Article) (error)
 	return nil
 }
 
+// 从数据库中找到需要抓取的公众号列表
 func (this *CrawlController) getGzhListToCrawl() (stats []Stats, err error) {
 	openId := this.Ctx.Input.Param(":id")
 
